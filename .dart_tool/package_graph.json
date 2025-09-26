@@ -21,7 +21,7 @@
     },
     {
       "name": "flutter_lints",
-      "version": "4.0.0",
+      "version": "6.0.0",
       "dependencies": [
         "lints"
       ]
@@ -54,7 +54,7 @@
     },
     {
       "name": "confetti",
-      "version": "0.7.0",
+      "version": "0.8.0",
       "dependencies": [
         "flutter",
         "vector_math"
@@ -72,10 +72,11 @@
     },
     {
       "name": "fl_chart",
-      "version": "0.69.2",
+      "version": "1.1.1",
       "dependencies": [
         "equatable",
-        "flutter"
+        "flutter",
+        "vector_math"
       ]
     },
     {
@@ -105,7 +106,7 @@
     },
     {
       "name": "lints",
-      "version": "4.0.0",
+      "version": "6.0.0",
       "dependencies": []
     },
     {
