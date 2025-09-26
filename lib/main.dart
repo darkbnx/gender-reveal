@@ -7,6 +7,152 @@ import 'package:uuid/uuid.dart';
 import 'package:confetti/confetti.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
+/* =====================  I18N ===================== */
+
+enum AppLang { pl, en, pt }
+
+const _kLangKey = 'lang_v1';
+
+String flagOf(AppLang l) {
+  switch (l) {
+    case AppLang.pl:
+      return '🇵🇱';
+    case AppLang.en:
+      return '🇬🇧';
+    case AppLang.pt:
+      return '🇵🇹';
+  }
+}
+
+const Map<AppLang, Map<String, String>> translations = {
+  AppLang.pl: {
+    'appTitle': 'Tablica głosów 🥳',
+    'participants': 'Uczestnicy',
+    'reset': 'Resetuj',
+    'reset_q': 'Zresetować?',
+    'reset_body': 'Usunie wszystkie głosy zapisane na tym iPadzie.',
+    'cancel': 'Anuluj',
+    'reset_btn': 'Resetuj',
+    'boys_lead': '👦 Chłopcy prowadzą!',
+    'girls_lead': '👧 Dziewczynki wyszły na prowadzenie!',
+    'tie': 'Remis… pełen suspensu!',
+    'total_votes': 'Łączna liczba głosów: {n}',
+    'legend_boy': 'Chłopiec',
+    'legend_girl': 'Dziewczynka',
+    'abs_compare': 'Porównanie bezwzględne',
+    'timeline': 'Ewolucja w czasie',
+    'no_timeline': 'Brak danych do wykresu liniowego',
+    'greet_named': 'Cześć, {name} 👋',
+    'ask_name': 'Jak masz na imię?',
+    'question': 'Jak obstawiasz płeć maluszka?',
+    'hint_named': 'Zaufaj swojej intuicji…',
+    'hint_no_name': 'Dotknij „Nowa odpowiedź”, aby podać imię.',
+    'boy': 'Chłopiec',
+    'girl': 'Dziewczynka',
+    'boy_tag': 'Drużyna autek i bączków',
+    'girl_tag': 'Drużyna kokardek i brokatu',
+    'cta_tap': 'Dotknij, aby zagłosować',
+    'new_answer': 'Nowa odpowiedź',
+    'name_arrow': 'Imię → wybierz opcję 👆',
+    'dup_name': 'Ta osoba już głosowała. Użyj innego imienia.',
+    'thanks_boy': 'Dziękujemy! Twój głos: Chłopiec',
+    'thanks_girl': 'Dziękujemy! Twój głos: Dziewczynka',
+    'dlg_new': 'Nowa odpowiedź',
+    'name_label': 'Imię',
+    'name_empty': 'Podaj swoje imię.',
+    'name_toolong': 'Imię jest za długie.',
+    'continue': 'Kontynuuj',
+    'details': 'Szczegóły',
+    'voted_at': 'Głos oddany: {stamp}',
+  },
+  AppLang.en: {
+    'appTitle': 'Voting Board 🥳',
+    'participants': 'Participants',
+    'reset': 'Reset',
+    'reset_q': 'Reset all?',
+    'reset_body': 'This will delete all votes stored on this iPad.',
+    'cancel': 'Cancel',
+    'reset_btn': 'Reset',
+    'boys_lead': '👦 Boys are leading!',
+    'girls_lead': '👧 Girls took the lead!',
+    'tie': 'It’s a tie… suspense!',
+    'total_votes': 'Total votes: {n}',
+    'legend_boy': 'Boy',
+    'legend_girl': 'Girl',
+    'abs_compare': 'Absolute comparison',
+    'timeline': 'Timeline',
+    'no_timeline': 'No timeline data yet',
+    'greet_named': 'Hi, {name} 👋',
+    'ask_name': 'What’s your name?',
+    'question': 'What do you guess the baby’s gender is?',
+    'hint_named': 'Trust your sixth sense…',
+    'hint_no_name': 'Tap “New answer” to enter your name.',
+    'boy': 'Boy',
+    'girl': 'Girl',
+    'boy_tag': 'Team cars & tops',
+    'girl_tag': 'Team bows & glitter',
+    'cta_tap': 'Tap to vote',
+    'new_answer': 'New answer',
+    'name_arrow': 'Name → choose an option 👆',
+    'dup_name': 'This name already voted. Use a different one.',
+    'thanks_boy': 'Thanks! Your vote: Boy',
+    'thanks_girl': 'Thanks! Your vote: Girl',
+    'dlg_new': 'New answer',
+    'name_label': 'Name',
+    'name_empty': 'Type your name.',
+    'name_toolong': 'Name is too long.',
+    'continue': 'Continue',
+    'details': 'Details',
+    'voted_at': 'Voted at: {stamp}',
+  },
+  AppLang.pt: {
+    'appTitle': 'Quadro de votos 🥳',
+    'participants': 'Participantes',
+    'reset': 'Repor',
+    'reset_q': 'Repor tudo?',
+    'reset_body': 'Apaga todos os votos guardados neste iPad.',
+    'cancel': 'Cancelar',
+    'reset_btn': 'Repor',
+    'boys_lead': '👦 Rapazes na frente!',
+    'girls_lead': '👧 Raparigas passaram à frente!',
+    'tie': 'Empate… suspense!',
+    'total_votes': 'Total de votos: {n}',
+    'legend_boy': 'Rapaz',
+    'legend_girl': 'Rapariga',
+    'abs_compare': 'Comparação absoluta',
+    'timeline': 'Evolução temporal',
+    'no_timeline': 'Ainda sem dados na linha temporal',
+    'greet_named': 'Olá, {name} 👋',
+    'ask_name': 'Como te chamas?',
+    'question': 'Qual achas que será o sexo do bebé?',
+    'hint_named': 'Confia no sexto sentido…',
+    'hint_no_name': 'Toca em “Nova resposta” para escreveres o teu nome.',
+    'boy': 'Rapaz',
+    'girl': 'Rapariga',
+    'boy_tag': 'Team carrinhos & piões',
+    'girl_tag': 'Team laços & purpurina',
+    'cta_tap': 'Toca para votar',
+    'new_answer': 'Nova resposta',
+    'name_arrow': 'Nome → escolhe uma opção 👆',
+    'dup_name': 'Esse nome já votou. Usa um diferente.',
+    'thanks_boy': 'Obrigado! Voto: Rapaz',
+    'thanks_girl': 'Obrigado! Voto: Rapariga',
+    'dlg_new': 'Nova resposta',
+    'name_label': 'Nome',
+    'name_empty': 'Escreve o teu nome.',
+    'name_toolong': 'Nome demasiado comprido.',
+    'continue': 'Continuar',
+    'details': 'Detalhe',
+    'voted_at': 'Votou em: {stamp}',
+  },
+};
+
+String t(AppLang lang, String key, {Map<String, String> vars = const {}}) {
+  var s = translations[lang]![key] ?? key;
+  vars.forEach((k, v) => s = s.replaceAll('{$k}', v));
+  return s;
+}
+
 /* =====================  APP  ===================== */
 
 void main() {
@@ -29,7 +175,7 @@ class RevealProApp extends StatelessWidget {
   }
 }
 
-/* =====================  MODELE & STORE (local only)  ===================== */
+/* =====================  MODELOS & STORE (local only)  ===================== */
 
 enum Choice { boy, girl }
 
@@ -94,7 +240,7 @@ class VoteStore extends ChangeNotifier {
     );
   }
 
-  /// Jeden głos na jedno imię (case-insensitive, znormalizowane spacje).
+  /// 1 voto por nome (case-insensitive, espaços normalizados).
   Future<bool> addUnique({required String name, required Choice choice}) async {
     final norm = normalizeName(name);
     final exists = _items.any((e) => normalizeName(e.name) == norm);
@@ -130,8 +276,9 @@ class _SplitHomeState extends State<SplitHome> {
   final store = VoteStore();
   String? pendingName;
   late ConfettiController confetti;
-  Choice? lastLeader; // wykrycie zmiany prowadzenia
-  String headline = 'Zaczynamy zabawę!';
+  Choice? lastLeader;
+  String headline = '';
+  AppLang currentLang = AppLang.pl;
 
   @override
   void initState() {
@@ -139,7 +286,19 @@ class _SplitHomeState extends State<SplitHome> {
     store.addListener(_onStore);
     confetti = ConfettiController(duration: const Duration(milliseconds: 900));
     store.load();
+    _loadLang();
     WidgetsBinding.instance.addPostFrameCallback((_) => _openNameDialog());
+  }
+
+  Future<void> _loadLang() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getString(_kLangKey);
+    if (saved != null) {
+      setState(() => currentLang = AppLang.values
+          .firstWhere((l) => l.name == saved, orElse: () => AppLang.pl));
+    }
+    headline = t(currentLang, 'tie'); // inicial
+    setState(() {});
   }
 
   @override
@@ -156,20 +315,20 @@ class _SplitHomeState extends State<SplitHome> {
     if (leader != lastLeader && leader != null) {
       lastLeader = leader;
       setState(() {
-        headline = leader == Choice.boy
-            ? '👦 Chłopcy prowadzą!'
-            : '👧 Dziewczynki wyszły na prowadzenie!';
+        headline =
+            t(currentLang, leader == Choice.boy ? 'boys_lead' : 'girls_lead');
       });
     } else if (leader == null) {
-      setState(() => headline = 'Remis… pełen suspensu!');
+      setState(() => headline = t(currentLang, 'tie'));
     }
   }
 
   Future<void> _openNameDialog() async {
+    await Future.delayed(const Duration(milliseconds: 30));
     final res = await showDialog<String>(
       context: context,
       barrierDismissible: true,
-      builder: (_) => const NameGlassDialog(),
+      builder: (_) => NameGlassDialog(lang: currentLang),
     );
     if (res != null && res.trim().isNotEmpty) {
       setState(() => pendingName = res.trim());
@@ -185,9 +344,9 @@ class _SplitHomeState extends State<SplitHome> {
     if (!mounted) return;
 
     if (!ok) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         behavior: SnackBarBehavior.floating,
-        content: Text('Ta osoba już głosowała. Użyj innego imienia.'),
+        content: Text(t(currentLang, 'dup_name')),
       ));
       return;
     }
@@ -196,13 +355,22 @@ class _SplitHomeState extends State<SplitHome> {
     setState(() => pendingName = null);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       behavior: SnackBarBehavior.floating,
-      content: Text(
-          'Dziękujemy! Twój głos: ${c == Choice.boy ? "Chłopiec" : "Dziewczynka"}'),
+      content:
+          Text(t(currentLang, c == Choice.boy ? 'thanks_boy' : 'thanks_girl')),
     ));
+  }
+
+  Future<void> _changeLang(AppLang lang) async {
+    setState(() => currentLang = lang);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_kLangKey, lang.name);
+    // refrescar headline com a nova língua:
+    _onStore();
   }
 
   @override
   Widget build(BuildContext context) {
+    final total = store.total;
     return AnimatedBuilder(
       animation: store,
       builder: (_, __) {
@@ -215,34 +383,44 @@ class _SplitHomeState extends State<SplitHome> {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 centerTitle: true,
-                title: const Text('Tablica głosów 🥳',
-                    style: TextStyle(fontWeight: FontWeight.w700)),
+                title: Text(t(currentLang, 'appTitle')),
+                leadingWidth: 64,
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: _LangButton(
+                    current: currentLang,
+                    onSelected: _changeLang,
+                  ),
+                ),
                 actions: [
                   IconButton(
-                    tooltip: 'Uczestnicy',
+                    tooltip: t(currentLang, 'participants'),
                     icon: const Icon(Icons.people_alt_rounded),
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (_) => ParticipantsPage(store: store)),
+                        builder: (_) => ParticipantsPage(
+                          store: store,
+                          lang: currentLang,
+                        ),
+                      ),
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Resetuj',
+                    tooltip: t(currentLang, 'reset'),
                     icon: const Icon(Icons.cached_rounded),
                     onPressed: () async {
                       final ok = await showDialog<bool>(
                         context: context,
                         builder: (_) => AlertDialog(
-                          title: const Text('Zresetować?'),
-                          content: const Text(
-                              'Usunie wszystkie głosy zapisane na tym iPadzie.'),
+                          title: Text(t(currentLang, 'reset_q')),
+                          content: Text(t(currentLang, 'reset_body')),
                           actions: [
                             TextButton(
                                 onPressed: () => Navigator.pop(context, false),
-                                child: const Text('Anuluj')),
+                                child: Text(t(currentLang, 'cancel'))),
                             FilledButton(
                                 onPressed: () => Navigator.pop(context, true),
-                                child: const Text('Resetuj')),
+                                child: Text(t(currentLang, 'reset_btn'))),
                           ],
                         ),
                       );
@@ -253,29 +431,33 @@ class _SplitHomeState extends State<SplitHome> {
               ),
               body: Row(
                 children: [
-                  // Lewy panel: wyniki
                   SizedBox(
                     width: 520,
                     child: _GlassPanel(
-                        child: _ResultsPanel(store: store, headline: headline)),
+                      child: _ResultsPanel(
+                        store: store,
+                        headline: headline,
+                        lang: currentLang,
+                      ),
+                    ),
                   ),
                   const VerticalDivider(width: 1, thickness: 0),
-                  // Prawy panel: głosowanie
                   Expanded(
                     child: _GlassPanel(
                       margin: const EdgeInsets.fromLTRB(16, 16, 16, 24),
                       child: _VotePanel(
+                        lang: currentLang,
                         pendingName: pendingName,
                         onNew: _openNameDialog,
                         onBoy: () => _vote(Choice.boy),
                         onGirl: () => _vote(Choice.girl),
+                        total: total,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            // Konfetti
             Align(
               alignment: Alignment.topCenter,
               child: ConfettiWidget(
@@ -291,6 +473,29 @@ class _SplitHomeState extends State<SplitHome> {
           ],
         );
       },
+    );
+  }
+}
+
+/* =====================  LANG BUTTON (flags)  ===================== */
+
+class _LangButton extends StatelessWidget {
+  final AppLang current;
+  final ValueChanged<AppLang> onSelected;
+  const _LangButton({required this.current, required this.onSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<AppLang>(
+      tooltip: 'Language',
+      offset: const Offset(0, 40),
+      icon: Text(flagOf(current), style: const TextStyle(fontSize: 22)),
+      onSelected: onSelected,
+      itemBuilder: (ctx) => const [
+        PopupMenuItem(value: AppLang.pl, child: Text('🇵🇱 Polski')),
+        PopupMenuItem(value: AppLang.en, child: Text('🇬🇧 English')),
+        PopupMenuItem(value: AppLang.pt, child: Text('🇵🇹 Português')),
+      ],
     );
   }
 }
@@ -378,7 +583,9 @@ class _GlassPanel extends StatelessWidget {
 class _ResultsPanel extends StatelessWidget {
   final VoteStore store;
   final String headline;
-  const _ResultsPanel({required this.store, required this.headline});
+  final AppLang lang;
+  const _ResultsPanel(
+      {required this.store, required this.headline, required this.lang});
 
   @override
   Widget build(BuildContext context) {
@@ -403,32 +610,34 @@ class _ResultsPanel extends StatelessWidget {
                 pause: const Duration(milliseconds: 2500),
                 animatedTexts: [
                   FadeAnimatedText(headline),
-                  FadeAnimatedText('Łączna liczba głosów: $total'),
+                  FadeAnimatedText(
+                      t(lang, 'total_votes', vars: {'n': '$total'})),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 12),
-          // Donut
           SizedBox(height: 220, child: _DonutChart(boy: boy, girl: girl)),
           const SizedBox(height: 8),
           Wrap(
             spacing: 10,
             children: [
-              _legend(Colors.blue.shade600, 'Chłopiec ($boy, $boyPct%)'),
-              _legend(Colors.pink.shade400, 'Dziewczynka ($girl, $girlPct%)'),
+              _legend(Colors.blue.shade600,
+                  '${t(lang, 'legend_boy')} ($boy, $boyPct%)'),
+              _legend(Colors.pink.shade400,
+                  '${t(lang, 'legend_girl')} ($girl, $girlPct%)'),
             ],
           ),
           const SizedBox(height: 16),
           const Divider(height: 1),
           const SizedBox(height: 12),
-          // Słupki + linia obok siebie
           Expanded(
             child: Row(
               children: [
-                Expanded(child: _BarsChart(boy: boy, girl: girl)),
+                Expanded(child: _BarsChart(boy: boy, girl: girl, lang: lang)),
                 const SizedBox(width: 12),
-                Expanded(child: _TimelineChart(entries: store.items)),
+                Expanded(
+                    child: _TimelineChart(entries: store.items, lang: lang)),
               ],
             ),
           ),
@@ -437,17 +646,15 @@ class _ResultsPanel extends StatelessWidget {
     );
   }
 
-  Widget _legend(Color c, String t) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-              width: 10,
-              height: 10,
-              decoration: BoxDecoration(color: c, shape: BoxShape.circle)),
-          const SizedBox(width: 6),
-          Text(t),
-        ],
-      );
+  Widget _legend(Color c, String t) =>
+      Row(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(color: c, shape: BoxShape.circle)),
+        const SizedBox(width: 6),
+        Text(t),
+      ]);
 }
 
 class _DonutChart extends StatelessWidget {
@@ -490,7 +697,8 @@ class _DonutChart extends StatelessWidget {
 class _BarsChart extends StatelessWidget {
   final int boy;
   final int girl;
-  const _BarsChart({required this.boy, required this.girl});
+  final AppLang lang;
+  const _BarsChart({required this.boy, required this.girl, required this.lang});
 
   @override
   Widget build(BuildContext context) {
@@ -503,7 +711,7 @@ class _BarsChart extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Porównanie bezwzględne',
+            Text(t(lang, 'abs_compare'),
                 style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             Expanded(
@@ -523,9 +731,9 @@ class _BarsChart extends StatelessWidget {
                         getTitlesWidget: (value, meta) {
                           switch (value.toInt()) {
                             case 0:
-                              return const Text('Chłopiec');
+                              return Text(t(lang, 'legend_boy'));
                             case 1:
-                              return const Text('Dziewczynka');
+                              return Text(t(lang, 'legend_girl'));
                           }
                           return const SizedBox.shrink();
                         },
@@ -535,28 +743,20 @@ class _BarsChart extends StatelessWidget {
                   gridData: FlGridData(show: false),
                   borderData: FlBorderData(show: false),
                   barGroups: [
-                    BarChartGroupData(
-                      x: 0,
-                      barRods: [
-                        BarChartRodData(
+                    BarChartGroupData(x: 0, barRods: [
+                      BarChartRodData(
                           toY: boy.toDouble(),
                           width: 26,
                           color: Colors.blue.shade600,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ],
-                    ),
-                    BarChartGroupData(
-                      x: 1,
-                      barRods: [
-                        BarChartRodData(
+                          borderRadius: BorderRadius.circular(6))
+                    ]),
+                    BarChartGroupData(x: 1, barRods: [
+                      BarChartRodData(
                           toY: girl.toDouble(),
                           width: 26,
                           color: Colors.pink.shade400,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ],
-                    ),
+                          borderRadius: BorderRadius.circular(6))
+                    ]),
                   ],
                 ),
               ),
@@ -570,20 +770,15 @@ class _BarsChart extends StatelessWidget {
 
 class _TimelineChart extends StatelessWidget {
   final List<VoteEntry> entries;
-  const _TimelineChart({required this.entries});
+  final AppLang lang;
+  const _TimelineChart({required this.entries, required this.lang});
 
   @override
   Widget build(BuildContext context) {
-    // grupowanie per minuta + wybór
     final buckets = <DateTime, Map<Choice, int>>{};
     for (final e in entries) {
-      final key = DateTime(
-        e.createdAt.year,
-        e.createdAt.month,
-        e.createdAt.day,
-        e.createdAt.hour,
-        e.createdAt.minute,
-      );
+      final key = DateTime(e.createdAt.year, e.createdAt.month, e.createdAt.day,
+          e.createdAt.hour, e.createdAt.minute);
       buckets.putIfAbsent(key, () => {Choice.boy: 0, Choice.girl: 0});
       buckets[key]![e.choice] = (buckets[key]![e.choice] ?? 0) + 1;
     }
@@ -593,7 +788,7 @@ class _TimelineChart extends StatelessWidget {
         elevation: 0,
         color: Colors.white.withOpacity(.6),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: const Center(child: Text('Brak danych do wykresu liniowego')),
+        child: Center(child: Text(t(lang, 'no_timeline'))),
       );
     }
 
@@ -619,7 +814,7 @@ class _TimelineChart extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Ewolucja w czasie',
+            Text(t(lang, 'timeline'),
                 style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             Expanded(
@@ -691,15 +886,19 @@ class _TimelineChart extends StatelessWidget {
 /* =====================  PANEL GŁOSOWANIA  ===================== */
 
 class _VotePanel extends StatelessWidget {
+  final AppLang lang;
   final String? pendingName;
   final VoidCallback onNew;
   final VoidCallback onBoy;
   final VoidCallback onGirl;
+  final int total;
   const _VotePanel({
+    required this.lang,
     required this.pendingName,
     required this.onNew,
     required this.onBoy,
     required this.onGirl,
+    required this.total,
   });
 
   @override
@@ -711,7 +910,9 @@ class _VotePanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            hasName ? 'Cześć, $pendingName 👋' : 'Jak masz na imię?',
+            hasName
+                ? t(lang, 'greet_named', vars: {'name': pendingName ?? ''})
+                : t(lang, 'ask_name'),
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium
@@ -719,7 +920,7 @@ class _VotePanel extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Jak obstawiasz płeć maluszka?',
+            t(lang, 'question'),
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
@@ -727,9 +928,7 @@ class _VotePanel extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            hasName
-                ? 'Zaufaj swojej intuicji…'
-                : 'Dotknij „Nowa odpowiedź”, aby podać imię.',
+            hasName ? t(lang, 'hint_named') : t(lang, 'hint_no_name'),
             style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
@@ -740,40 +939,45 @@ class _VotePanel extends StatelessWidget {
                 Expanded(
                   child: _FancyCard(
                     color: Colors.blue.shade600,
-                    title: '👦 Chłopiec',
-                    tagline: 'Drużyna autek i bączków',
+                    title: t(lang, 'boy'),
+                    tagline: t(lang, 'boy_tag'),
                     onTap: hasName ? onBoy : onNew,
+                    isBoy: true,
                   ),
                 ),
                 const SizedBox(width: 22),
                 Expanded(
                   child: _FancyCard(
                     color: Colors.pink.shade400,
-                    title: '👧 Dziewczynka',
-                    tagline: 'Drużyna kokardek i brokatu',
+                    title: t(lang, 'girl'),
+                    tagline: t(lang, 'girl_tag'),
                     onTap: hasName ? onGirl : onNew,
+                    isBoy: false,
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 16),
-          Wrap(
-            spacing: 12,
-            runSpacing: 8,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              FilledButton.icon(
-                onPressed: onNew,
-                icon: const Icon(Icons.person_add_alt_1),
-                label: const Text('Nowa odpowiedź'),
+          SizedBox(
+            width: double.infinity,
+            height: 64,
+            child: FilledButton.icon(
+              style: FilledButton.styleFrom(
+                textStyle:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text(
-                'Imię → wybierz opcję 👆',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant),
-              ),
-            ],
+              onPressed: onNew,
+              icon: const Icon(Icons.person_add_alt_1, size: 28),
+              label: Text('➕ ${t(lang, 'new_answer')}'),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            t(lang, 'name_arrow'),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
         ],
       ),
@@ -786,11 +990,13 @@ class _FancyCard extends StatefulWidget {
   final String title;
   final String tagline;
   final VoidCallback onTap;
+  final bool isBoy;
   const _FancyCard({
     required this.color,
     required this.title,
     required this.tagline,
     required this.onTap,
+    required this.isBoy,
   });
   @override
   State<_FancyCard> createState() => _FancyCardState();
@@ -800,6 +1006,7 @@ class _FancyCardState extends State<_FancyCard> {
   bool _down = false;
   @override
   Widget build(BuildContext context) {
+    final emoji = widget.isBoy ? '👦' : '👧';
     return GestureDetector(
       onTapDown: (_) => setState(() => _down = true),
       onTapCancel: () => setState(() => _down = false),
@@ -829,29 +1036,36 @@ class _FancyCardState extends State<_FancyCard> {
           ),
           padding: const EdgeInsets.all(28),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 widget.title,
                 style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w900,
-                    color: widget.color.withOpacity(.95)),
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                  color: widget.color.withOpacity(.95),
+                ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Text(widget.tagline,
-                  style: Theme.of(context).textTheme.titleMedium),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium),
+              const Spacer(),
+              Text(emoji, style: const TextStyle(fontSize: 90)),
               const Spacer(),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.touch_app,
                       color: Theme.of(context).colorScheme.onSurfaceVariant),
                   const SizedBox(width: 6),
                   Text(
-                    'Dotknij, aby zagłosować',
+                    // traduzido no contexto de cada língua
+                    (translations[AppLang.pl]!['cta_tap'])!,
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontWeight: FontWeight.w500),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -866,7 +1080,8 @@ class _FancyCardState extends State<_FancyCard> {
 /* =====================  DIALOG “GLASS” Z IMIENIEM  ===================== */
 
 class NameGlassDialog extends StatefulWidget {
-  const NameGlassDialog({super.key});
+  final AppLang lang;
+  const NameGlassDialog({super.key, required this.lang});
   @override
   State<NameGlassDialog> createState() => _NameGlassDialogState();
 }
@@ -874,6 +1089,22 @@ class NameGlassDialog extends StatefulWidget {
 class _NameGlassDialogState extends State<NameGlassDialog> {
   final _form = GlobalKey<FormState>();
   final _ctrl = TextEditingController();
+  final _focus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _focus.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _focus.dispose();
+    _ctrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -881,73 +1112,76 @@ class _NameGlassDialogState extends State<NameGlassDialog> {
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-      child: Padding(
+      child: AnimatedPadding(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
         padding: EdgeInsets.only(bottom: bottom),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(28),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.75),
-                border: Border.all(color: Colors.white.withOpacity(.45)),
-                borderRadius: BorderRadius.circular(28),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(.08),
-                      blurRadius: 24,
-                      offset: const Offset(0, 8))
-                ],
-              ),
-              padding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Nowa odpowiedź',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 12),
-                  Form(
-                    key: _form,
-                    child: TextFormField(
-                      controller: _ctrl,
-                      autofocus: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Imię',
-                        border: OutlineInputBorder(),
-                      ),
-                      textInputAction: TextInputAction.done,
-                      onFieldSubmitted: (_) => _submit(),
-                      validator: (v) {
-                        final t = v?.trim() ?? '';
-                        if (t.isEmpty) return 'Podaj swoje imię.';
-                        if (t.length > 40) return 'Imię jest za długie.';
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
+        child: SingleChildScrollView(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(28),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+              child: Material(
+                color: Colors.white.withOpacity(.85),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('Anuluj'),
+                      Text(
+                        t(widget.lang, 'dlg_new'),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: 12),
+                      Form(
+                        key: _form,
+                        child: TextFormField(
+                          controller: _ctrl,
+                          focusNode: _focus,
+                          autofocus: true,
+                          keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.words,
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            labelText: t(widget.lang, 'name_label'),
+                            border: const OutlineInputBorder(),
+                          ),
+                          onFieldSubmitted: (_) => _submit(),
+                          validator: (v) {
+                            final tval = v?.trim() ?? '';
+                            if (tval.isEmpty)
+                              return t(widget.lang, 'name_empty');
+                            if (tval.length > 40)
+                              return t(widget.lang, 'name_toolong');
+                            return null;
+                          },
                         ),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: FilledButton.icon(
-                          onPressed: _submit,
-                          icon: const Icon(Icons.check_rounded),
-                          label: const Text('Kontynuuj'),
-                        ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(t(widget.lang, 'cancel')),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: FilledButton.icon(
+                              onPressed: _submit,
+                              icon: const Icon(Icons.check_rounded),
+                              label: Text(t(widget.lang, 'continue')),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -967,7 +1201,8 @@ class _NameGlassDialogState extends State<NameGlassDialog> {
 
 class ParticipantsPage extends StatelessWidget {
   final VoteStore store;
-  const ParticipantsPage({super.key, required this.store});
+  final AppLang lang;
+  const ParticipantsPage({super.key, required this.store, required this.lang});
 
   @override
   Widget build(BuildContext context) {
@@ -976,8 +1211,9 @@ class ParticipantsPage extends StatelessWidget {
       Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-            title: const Text('Uczestnicy'),
-            backgroundColor: Colors.transparent),
+          title: Text(t(lang, 'participants')),
+          backgroundColor: Colors.transparent,
+        ),
         body: ListView.separated(
           padding: const EdgeInsets.all(16),
           itemCount: store.items.length,
@@ -992,11 +1228,14 @@ class ParticipantsPage extends StatelessWidget {
                         : p.name.characters.first.toUpperCase())),
                 title: Text(p.name,
                     style: const TextStyle(fontWeight: FontWeight.w600)),
-                subtitle:
-                    Text(p.choice == Choice.boy ? 'Chłopiec' : 'Dziewczynka'),
+                subtitle: Text(p.choice == Choice.boy
+                    ? t(lang, 'legend_boy')
+                    : t(lang, 'legend_girl')),
                 trailing: const Icon(Icons.chevron_right_rounded),
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => ParticipantDetail(entry: p))),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (_) => ParticipantDetail(entry: p, lang: lang)),
+                ),
               ),
             );
           },
@@ -1008,7 +1247,8 @@ class ParticipantsPage extends StatelessWidget {
 
 class ParticipantDetail extends StatelessWidget {
   final VoteEntry entry;
-  const ParticipantDetail({super.key, required this.entry});
+  final AppLang lang;
+  const ParticipantDetail({super.key, required this.entry, required this.lang});
 
   @override
   Widget build(BuildContext context) {
@@ -1025,7 +1265,7 @@ class ParticipantDetail extends StatelessWidget {
       Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-            title: const Text('Szczegóły'),
+            title: Text(t(lang, 'details')),
             backgroundColor: Colors.transparent),
         body: Center(
           child: ConstrainedBox(
@@ -1052,17 +1292,18 @@ class ParticipantDetail extends StatelessWidget {
                   Chip(
                     avatar: const Text('🎯'),
                     label: Text(entry.choice == Choice.boy
-                        ? 'Chłopiec'
-                        : 'Dziewczynka'),
+                        ? t(lang, 'legend_boy')
+                        : t(lang, 'legend_girl')),
                     backgroundColor: chipColor.withOpacity(.12),
                     side: BorderSide(color: chipColor.withOpacity(.4)),
                     labelStyle: TextStyle(color: chipColor),
                   ),
                   const SizedBox(height: 8),
-                  Text('Głos oddany: $stamp',
-                      style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant)),
+                  Text(
+                    t(lang, 'voted_at', vars: {'stamp': stamp}),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  ),
                 ]),
               ),
             ),
