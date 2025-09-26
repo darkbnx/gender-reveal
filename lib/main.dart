@@ -153,7 +153,7 @@ String t(AppLang lang, String key, {Map<String, String> vars = const {}}) {
   return s;
 }
 
-/* =====================  APP  ===================== */
+/* =====================  APP  ====================== */
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
